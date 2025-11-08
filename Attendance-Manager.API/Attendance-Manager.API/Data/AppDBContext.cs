@@ -1,16 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Attendance_Manager.API.JwtAuthentication;
 
 namespace Attendance_Manager.API.Data
 {
-    public class AppDBContext : DbContext
+    public class AppDBContext : IdentityDbContext<ApplicationUser>
     {
         public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         { }
 
-
         public DbSet<Teacher> teachers { get; set; }
-
         public DbSet<Student> students { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
