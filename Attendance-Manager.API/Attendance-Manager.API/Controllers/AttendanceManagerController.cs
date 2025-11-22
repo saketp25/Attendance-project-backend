@@ -1,9 +1,11 @@
 using Attendance_Manager.API.Data;
 using Attendance_Manager.API.Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Attendance_Manager.API.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     [ApiVersion("2.0")]
@@ -20,6 +22,7 @@ namespace Attendance_Manager.API.Controllers
 
         [HttpPost]
         [Route("AddTeacher")]
+        [Authorize(Roles = "Admin")]
         public void AddTeacher([FromBody] TeacherPostRequestDTO dto)
         {
             var newTeacher = new Teacher

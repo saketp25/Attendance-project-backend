@@ -11,6 +11,10 @@ namespace Attendance_Manager.API.Data
 
         public DbSet<Teacher> teachers { get; set; }
         public DbSet<Student> students { get; set; }
+        public DbSet<Class> classes { get; set; }
+        public DbSet<ClassStudent> classStudents { get; set; }
+        public DbSet<Session> sessions { get; set; }
+        public DbSet<AttendanceRecord> attendanceRecords { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

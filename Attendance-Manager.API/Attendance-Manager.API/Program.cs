@@ -66,20 +66,35 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+// Seed Roles and Default Admin User
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger(c =>
-    {
-        c.SerializeAsV2 = true; // Forces Swagger 2.0 if needed
-    });
-    app.UseSwaggerUI(c =>
-    {
-        // Point UI to the correct JSON
-        c.SwaggerEndpoint("/swagger/v2/swagger.json", "My API V2");
-    });
+    var services = scope.ServiceProvider;
 
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+    var dbContext = services.GetRequiredService<AppDBContext>();
+
+    //dbContext.Database.Migrate(); 
+
+    await SeedData.InitializeAsync(roleManager, userManager);
 }
+
+
+    // Configure the HTTP request pipeline.
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwagger(c =>
+        {
+            c.SerializeAsV2 = true; // Forces Swagger 2.0 if needed
+        });
+        app.UseSwaggerUI(c =>
+        {
+            // Point UI to the correct JSON
+            c.SwaggerEndpoint("/swagger/v2/swagger.json", "My API V2");
+        });
+
+    }
 
 app.UseHttpsRedirection();
 app.UseAuthentication();

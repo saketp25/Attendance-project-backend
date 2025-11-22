@@ -9,16 +9,24 @@ namespace Attendance_Manager.API.JwtAuthentication
     public class AuthController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        //private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly JwtTokenService _jwtTokenService;
+        //private readonly RoleManager<IdentityRole> _roleManager;
         public AuthController(UserManager<ApplicationUser> userManager,
-                              SignInManager<ApplicationUser> signInManager,
+                              //SignInManager<ApplicationUser> signInManager,
+                              //RoleManager<IdentityRole> roleManager,
                               JwtTokenService jwtTokenService)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
+            //_signInManager = signInManager;
             _jwtTokenService = jwtTokenService;
+            //_roleManager = roleManager;
         }
+
+        //private async void InitializeRoles()
+        //{
+        //    await SeedData.InitializeAsync(_roleManager, _userManager);
+        //}
 
         [HttpPost]
         [Route("Register")]
