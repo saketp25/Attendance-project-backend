@@ -23,18 +23,18 @@ namespace Attendance_Manager.API.Controllers
         [HttpPost]
         [Route("AddTeacher")]
         [Authorize(Roles = "Admin")]
-        public void AddTeacher([FromBody] TeacherPostRequestDTO dto)
+        public void AddTeacher([FromBody] UserPostRequestDTO dto)
         {
-            var newTeacher = new Teacher
+            var newTeacher = new User
             {
-                TeacherName = dto.TeacherName,
-                TeacherEmail = dto.email,
-                TeacherPassword = dto.password
+                UserName = dto.UserName,
+                Email = dto.Email,
+                Password = dto.Password,
+                Role = dto.Role
             };
 
             _dbContext.Add(newTeacher);
             _dbContext.SaveChanges();
         }
-
     }
 }

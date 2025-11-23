@@ -1,6 +1,6 @@
 ﻿namespace Attendance_Manager.API.Data
 {
-    public class ClassStudent
+    public class Enrollment
     {
         public int ClassId { get; set; }
         public int StudentId { get; set; }
