@@ -38,7 +38,7 @@ namespace Attendance_Manager.API.JwtAuthentication
                     Email = identityAdminUser.Email,
                     Password = identityAdminUser.PasswordHash,
                     Role = "Admin",
-                    IdentityUserID = identityAdminUser.Id
+                    IdentityUserId = identityAdminUser.Id
                 };
 
                 dBContext.Add(customAdminUser);

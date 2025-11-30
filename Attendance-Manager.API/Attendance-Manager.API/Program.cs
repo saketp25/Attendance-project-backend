@@ -1,3 +1,4 @@
+using Attendance_Manager.API.Controllers.User;
 using Attendance_Manager.API.Data;
 using Attendance_Manager.API.JwtAuthentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -21,7 +22,10 @@ builder.Services.AddSwaggerGen( c =>
         });
     }
 );
+
 builder.Services.AddScoped<JwtTokenService>();
+builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<AttendanceRepository>();
 
 // Configure EF Core
 builder.Services.AddDbContext<AppDBContext>(options =>

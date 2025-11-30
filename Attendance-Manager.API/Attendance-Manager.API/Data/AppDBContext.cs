@@ -44,7 +44,7 @@ namespace Attendance_Manager.API.Data
                 .HasColumnName("role")
                 .HasMaxLength(50);
 
-                entity.Property(e => e.IdentityUserID)
+                entity.Property(e => e.IdentityUserId)
                 .HasColumnName("identityuser_id")
                 .HasMaxLength(450);
             });

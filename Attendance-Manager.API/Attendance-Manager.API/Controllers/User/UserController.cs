@@ -10,25 +10,25 @@ namespace Attendance_Manager.API.Controllers.User
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
-        private readonly AppDBContext _dbContext;
+        private readonly UserService _userService;
         
-        public UserController(ILogger<UserController> logger,AppDBContext dBContext)
+        public UserController(ILogger<UserController> logger,UserService userService)
         {
             _logger = logger;
-            _dbContext = dBContext;
+            _userService = userService;
         }
 
         [HttpGet]
         [Route("GetUserById/{id}")]
         [Authorize(Roles ="Admin")]
-        public async Task<IActionResult> GetUsers(int id)
+        public async Task<IActionResult> GetUser(int id)
         {
-            var response = _dbContext.Users.Find(id);
+            var user = _userService.GetUser(id);
 
-            if (response==null)
-                return null;
+            if (user == null)
+                return NotFound("User Not Found");
 
-            return Ok(response);
+            return Ok(user);
         }
     }
 }

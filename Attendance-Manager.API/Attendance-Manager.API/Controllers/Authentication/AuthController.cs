@@ -53,13 +53,14 @@ namespace Attendance_Manager.API.Controllers.Authentication
                 Email = registerDTO.Email,
                 Password = identityUser.PasswordHash,
                 Role = registerDTO.Role ?? "Student",
-                IdentityUserID = identityUser.Id,
+                IdentityUserId = identityUser.Id,
             };
 
             var newUserResult = await _dbContext.AddAsync(newUser);
-            _dbContext.SaveChanges();
             if (newUserResult == null)
                 return BadRequest("unable to Add new User");
+            
+            _dbContext.SaveChanges();
 
             return Ok(new { Message = "User registered successfully" });
         }
