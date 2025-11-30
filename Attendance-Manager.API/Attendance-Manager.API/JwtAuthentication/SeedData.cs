@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Attendance_Manager.API.Data;
+using Microsoft.AspNetCore.Identity;
 
 namespace Attendance_Manager.API.JwtAuthentication
 {
     public static class SeedData
     {
-        public static async Task InitializeAsync(RoleManager<IdentityRole> roleManager,UserManager<ApplicationUser> userManager)
+        public static async Task InitializeAsync(RoleManager<IdentityRole> roleManager,UserManager<ApplicationUser> userManager,AppDBContext dBContext)
         {
             string[] roles = { "Admin", "Faculty", "Student" };
             
@@ -20,15 +21,28 @@ namespace Attendance_Manager.API.JwtAuthentication
             
             if (admin == null)
             {
-                var adminUser = new ApplicationUser
+                var identityAdminUser = new ApplicationUser
                 {
                     UserName = adminEmail,
                     Email = adminEmail,
                     FullName = "Default Admin"
                 };
-                var result = await userManager.CreateAsync(adminUser, "Admin@123");
+                var result = await userManager.CreateAsync(identityAdminUser, "Admin@123");
+                
                 if (result.Succeeded)
-                    await userManager.AddToRoleAsync(adminUser, "Admin");
+                    await userManager.AddToRoleAsync(identityAdminUser, "Admin");
+
+                var customAdminUser = new Attendance_Manager.API.Data.User
+                {
+                    UserName = identityAdminUser.FullName,
+                    Email = identityAdminUser.Email,
+                    Password = identityAdminUser.PasswordHash,
+                    Role = "Admin",
+                    IdentityUserID = identityAdminUser.Id
+                };
+
+                dBContext.Add(customAdminUser);
+                dBContext.SaveChanges();
             }
         }
     }

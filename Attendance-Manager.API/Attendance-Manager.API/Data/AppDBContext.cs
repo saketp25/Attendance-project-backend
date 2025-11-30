@@ -43,6 +43,10 @@ namespace Attendance_Manager.API.Data
                 entity.Property(e => e.Role)
                 .HasColumnName("role")
                 .HasMaxLength(50);
+
+                entity.Property(e => e.IdentityUserID)
+                .HasColumnName("identityuser_id")
+                .HasMaxLength(450);
             });
 
             modelBuilder.Entity<Class>(entity =>

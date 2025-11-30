@@ -1,4 +1,5 @@
 ﻿using Attendance_Manager.API.Controllers.Authentication.DTO;
+using Attendance_Manager.API.Data;
 using Attendance_Manager.API.JwtAuthentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -12,42 +13,53 @@ namespace Attendance_Manager.API.Controllers.Authentication
         private readonly UserManager<ApplicationUser> _userManager;
         //private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly JwtTokenService _jwtTokenService;
-        //private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly AppDBContext _dbContext;
+
         public AuthController(UserManager<ApplicationUser> userManager,
                               //SignInManager<ApplicationUser> signInManager,
-                              //RoleManager<IdentityRole> roleManager,
-                              JwtTokenService jwtTokenService)
+                              JwtTokenService jwtTokenService,
+                              AppDBContext dBContext)
         {
             _userManager = userManager;
             //_signInManager = signInManager;
             _jwtTokenService = jwtTokenService;
-            //_roleManager = roleManager;
+            _dbContext = dBContext;
         }
 
-        //private async void InitializeRoles()
-        //{
-        //    await SeedData.InitializeAsync(_roleManager, _userManager);
-        //}
-
+        
         [HttpPost]
         [Route("Register")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register(RegisterDTO registerDTO)
         {
-            var user = new ApplicationUser
+            var identityUser = new ApplicationUser
             {
                 UserName = registerDTO.Email,
                 Email = registerDTO.Email,
                 FullName = registerDTO.Fullname
             };
 
-            var result = await _userManager.CreateAsync(user, registerDTO.Password);
-            if (!result.Succeeded)
-                return BadRequest(result.Errors);
+            var identityUserResult = await _userManager.CreateAsync(identityUser, registerDTO.Password);
+            if (!identityUserResult.Succeeded)
+                return BadRequest(identityUserResult.Errors);
 
-            var roleResult = await _userManager.AddToRoleAsync(user, registerDTO.Role?? "Student");
+            var roleResult = await _userManager.AddToRoleAsync(identityUser, registerDTO.Role?? "Student");
             if(!roleResult.Succeeded)
                 return BadRequest(roleResult.Errors);
+
+            var newUser = new Attendance_Manager.API.Data.User
+            {
+                UserName = registerDTO.Fullname,
+                Email = registerDTO.Email,
+                Password = identityUser.PasswordHash,
+                Role = registerDTO.Role ?? "Student",
+                IdentityUserID = identityUser.Id,
+            };
+
+            var newUserResult = await _dbContext.AddAsync(newUser);
+            _dbContext.SaveChanges();
+            if (newUserResult == null)
+                return BadRequest("unable to Add new User");
 
             return Ok(new { Message = "User registered successfully" });
         }

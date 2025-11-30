@@ -77,7 +77,7 @@ using (var scope = app.Services.CreateScope())
 
     //dbContext.Database.Migrate(); 
 
-    await SeedData.InitializeAsync(roleManager, userManager);
+    await SeedData.InitializeAsync(roleManager, userManager,dbContext);
 }
 
 
