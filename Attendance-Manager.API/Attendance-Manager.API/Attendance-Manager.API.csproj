@@ -19,4 +19,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="8.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\Class\" />
+    <Folder Include="Controllers\Attendance\" />
+    <Folder Include="Controllers\Session\" />
+  </ItemGroup>
+
 </Project>

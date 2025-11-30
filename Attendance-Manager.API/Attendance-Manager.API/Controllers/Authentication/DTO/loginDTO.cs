@@ -1,4 +1,4 @@
-﻿namespace Attendance_Manager.API.JwtAuthentication
+﻿namespace Attendance_Manager.API.Controllers.Authentication.DTO
 {
     public class loginDTO
     {

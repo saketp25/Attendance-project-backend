@@ -1,9 +1,10 @@
-﻿using Attendance_Manager.API.JwtAuthentication;
+﻿using Attendance_Manager.API.Controllers.Authentication.DTO;
+using Attendance_Manager.API.JwtAuthentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Attendance_Manager.API.JwtAuthentication
+namespace Attendance_Manager.API.Controllers.Authentication
 {
     [ApiController]
     public class AuthController : ControllerBase

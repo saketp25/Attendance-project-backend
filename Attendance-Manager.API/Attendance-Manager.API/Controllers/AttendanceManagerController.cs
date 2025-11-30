@@ -1,5 +1,5 @@
+/*
 using Attendance_Manager.API.Data;
-using Attendance_Manager.API.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -38,3 +38,4 @@ namespace Attendance_Manager.API.Controllers
         }
     }
 }
+*/

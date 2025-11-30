@@ -1,4 +1,4 @@
-﻿namespace Attendance_Manager.API.Models.DTOs
+﻿namespace Attendance_Manager.API.Controllers.User.DTO
 {
     public class UserPostRequestDTO
     {
