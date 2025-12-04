@@ -11,9 +11,9 @@ namespace Attendance_Manager.API.Controllers.User
             _attendanceRepository = attendanceRepository;
         }
 
-        public UserGetResponseDTO GetUser(int id)
+        public async Task<UserGetResponseDTO> GetUser(int id)
         {
-            var user = _attendanceRepository.GetUser(id);
+            var user = await _attendanceRepository.GetUser(id);
             
             if (user == null)
                 return null;

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Attendance_Manager.API.Controllers.Authentication
 {
     [ApiController]
+    [Route("[Controller]")]
     public class AuthController : ControllerBase
     {
         private readonly UserManager<ApplicationUser> _userManager;

@@ -10,9 +10,9 @@ namespace Attendance_Manager.API.Data
             _appDBContext = appDBContext;
         }
 
-        public User GetUser(int id)
+        public async Task<User?> GetUser(int id)
         {
-            return _appDBContext.Users.Find(id);
+            return await _appDBContext.Users.FindAsync(id);
         }
     }
 }

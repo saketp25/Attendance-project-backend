@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Attendance_Manager.API.Controllers.User
 {
-    [ApiController]
     [Authorize]
+    [ApiController]
+    [Route("[Controller]")]
     [ApiVersion("2.0")]
     public class UserController : ControllerBase
     {
@@ -23,7 +24,7 @@ namespace Attendance_Manager.API.Controllers.User
         [Authorize(Roles ="Admin")]
         public async Task<IActionResult> GetUser(int id)
         {
-            var user = _userService.GetUser(id);
+            var user = await _userService.GetUser(id);
 
             if (user == null)
                 return NotFound("User Not Found");
