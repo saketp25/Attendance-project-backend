@@ -87,7 +87,9 @@ namespace Attendance_Manager.API.Data
 
                 entity.HasKey(e => e.SessionId);
 
-                entity.Property(e => e.SessionId);
+                entity.Property(e => e.SessionId)
+                .HasColumnName("session_id");
+                
 
                 entity.Property(e => e.SessionName)
                 .HasColumnName("session_name")

@@ -1,6 +1,6 @@
-﻿namespace Attendance_Manager.API.Data
+﻿namespace Attendance_Manager.API.Controllers.Session.DTO
 {
-    public class Session
+    public class SessionGetResponseDTO
     {
         public int SessionId { get; set; }
         public string SessionName { get; set; } = string.Empty;

@@ -1,5 +1,4 @@
-﻿
-using Attendance_Manager.API.Controllers.Class.DTO;
+﻿using Attendance_Manager.API.Controllers.Class.DTO;
 using Microsoft.EntityFrameworkCore;
 
 namespace Attendance_Manager.API.Data
@@ -57,6 +56,43 @@ namespace Attendance_Manager.API.Data
         {
             var result = await _appDBContext.Classes.FirstOrDefaultAsync(c => c.ClassId == classId);
             return result!;
+        }
+
+        // Session Methods
+
+        public async Task<bool> AddSession(Session session)
+        {
+            var entry = await _appDBContext.Sessions.AddAsync(session);
+            await _appDBContext.SaveChangesAsync();
+            return entry?.Entity != null;
+        }
+
+        public async Task<Session?> GetSessionById(int id)
+        {
+            var result = await  _appDBContext.Sessions.FirstOrDefaultAsync(s => s.SessionId == id);
+            return result;
+        }
+
+        public async Task<List<Session>> GetSessionsByClassId(int classId)
+        {
+            var result = await _appDBContext.Sessions.Where(s => s.ClassId == classId).ToListAsync();
+            return result;
+        }
+
+        public async Task<bool> DeleteSessionById(Session session)
+        {
+            var result =  _appDBContext.Sessions.Remove(session);
+
+            await _appDBContext.SaveChangesAsync();
+
+            return result.Entity != null ? true:false;
+        }
+
+        public async Task<bool> UpdateSessionById(Session sessionToUpdate)
+        {
+           _appDBContext.Sessions.Update(sessionToUpdate);
+            await _appDBContext.SaveChangesAsync();
+            return true;
         }
     }
 }

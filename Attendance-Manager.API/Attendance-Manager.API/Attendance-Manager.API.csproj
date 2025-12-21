@@ -21,7 +21,6 @@
 
   <ItemGroup>
     <Folder Include="Controllers\Attendance\" />
-    <Folder Include="Controllers\Session\" />
   </ItemGroup>
 
 </Project>
