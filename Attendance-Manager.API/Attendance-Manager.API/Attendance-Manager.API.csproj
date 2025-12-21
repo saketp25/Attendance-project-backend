@@ -20,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\Class\" />
     <Folder Include="Controllers\Attendance\" />
     <Folder Include="Controllers\Session\" />
   </ItemGroup>

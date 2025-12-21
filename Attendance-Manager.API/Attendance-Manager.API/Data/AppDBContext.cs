@@ -10,10 +10,10 @@ namespace Attendance_Manager.API.Data
         { }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Class> classes { get; set; }
-        public DbSet<Enrollment> enrollments { get; set; }
-        public DbSet<Session> sessions { get; set; }
-        public DbSet<AttendanceRecord> attendanceRecords { get; set; }
+        public DbSet<Class> Classes { get; set; }
+        public DbSet<Enrollment> Enrollments { get; set; }
+        public DbSet<Session> Sessions { get; set; }
+        public DbSet<AttendanceRecord> AttendanceRecords { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

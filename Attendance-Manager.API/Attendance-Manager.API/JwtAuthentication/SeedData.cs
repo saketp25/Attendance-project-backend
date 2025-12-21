@@ -7,7 +7,7 @@ namespace Attendance_Manager.API.JwtAuthentication
     {
         public static async Task InitializeAsync(RoleManager<IdentityRole> roleManager,UserManager<ApplicationUser> userManager,AppDBContext dBContext)
         {
-            string[] roles = { "Admin", "Faculty", "Student" };
+            string[] roles = { "Admin", "Teacher", "Student" };
             
             foreach (var role in roles)
             {
