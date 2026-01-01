@@ -1,4 +1,6 @@
 ﻿using Attendance_Manager.API.Controllers.Class.DTO;
+using Attendance_Manager.API.Controllers.Enrollment.DTO;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Attendance_Manager.API.Data
@@ -94,5 +96,63 @@ namespace Attendance_Manager.API.Data
             await _appDBContext.SaveChangesAsync();
             return true;
         }
+
+        // Enrollment Methods
+
+        public async Task<List<int>?> ValidateStudentIdsExist(List<int> studentIds)
+        {
+            var result = new List<int>();
+
+            foreach (int studentId in studentIds)
+            {
+                var user = await _appDBContext.Users.FirstOrDefaultAsync(s => s.UserId == studentId);
+                if (user != null)
+                    result.Add(studentId);
+            }
+            return result;
+        }
+
+        public async Task<List<int>?> checkValidStudentIdsAlreadyExitOrNot(List<int> studentIds, int classId,string operationType)
+        {
+            var validStudentIds = new List<int>();
+
+            foreach( var studentId in studentIds)
+            {
+                var result = await _appDBContext.Enrollments.FirstOrDefaultAsync(s => s.ClassId == classId && s.StudentId  == studentId);
+                if ((operationType == "ADD" && result == null) || (operationType == "REMOVE" && result != null))
+                    validStudentIds.Add(studentId);
+            }
+
+            return validStudentIds;
+        }
+
+        public async Task<bool> AddStudentsToClass(List<int> validStudentIds,int classId)
+        {
+            var enrollments = validStudentIds.Distinct().Select( studentId => new Enrollment
+            {
+                ClassId = classId,
+                StudentId = studentId
+            });
+            
+            await _appDBContext.Enrollments.AddRangeAsync(enrollments);
+            await _appDBContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        // check for duplicates in both addstudents and removestudents
+        // also check whether student class pair already exit in case of add and exit in case of delete 
+        // Optimize these loops in single query 
+        public async Task<bool> RemoveStudentFromClass(List<int> validStudentIds,int classId)
+        {
+            var enrollments = _appDBContext.Enrollments.Where(e => e.ClassId == classId && validStudentIds.Contains(e.StudentId));
+            if (enrollments == null)
+                return false;
+
+            _appDBContext.Enrollments.RemoveRange(entities: enrollments);
+            await _appDBContext.SaveChangesAsync();
+            return true;
+        }
+
     }
 }
