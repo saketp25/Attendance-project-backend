@@ -106,16 +106,19 @@ namespace Attendance_Manager.API.Data
             modelBuilder.Entity<AttendanceRecord>(entity =>
             {
                 entity.ToTable("AttendanceRecords", "dbo");
-             
+
                 entity.HasKey(e => e.AttendanceId);
-                
+
+                entity.Property(e => e.AttendanceId)
+                 .HasColumnName("attendance_id");
+
                 entity.Property(e => e.SessionId)
                 .HasColumnName("session_id");
                 
                 entity.Property(e => e.StudentId)
                 .HasColumnName("student_id");
                 
-                entity.Property(e => e.status)
+                entity.Property(e => e.Status)
                 .HasColumnName("status");
 
             });

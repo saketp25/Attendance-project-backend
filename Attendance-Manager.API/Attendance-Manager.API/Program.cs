@@ -1,3 +1,4 @@
+using Attendance_Manager.API.Controllers.Attendance;
 using Attendance_Manager.API.Controllers.Class;
 using Attendance_Manager.API.Controllers.Enrollment;
 using Attendance_Manager.API.Controllers.Session;
@@ -32,6 +33,7 @@ builder.Services.AddScoped<AttendanceRepository>();
 builder.Services.AddScoped<ClassService>();
 builder.Services.AddScoped<SessionService>();
 builder.Services.AddScoped<EnrollmentService>();
+builder.Services.AddScoped<AttendanceService>();
 
 // Configure EF Core
 builder.Services.AddDbContext<AppDBContext>(options =>

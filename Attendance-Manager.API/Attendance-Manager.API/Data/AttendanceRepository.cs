@@ -1,4 +1,5 @@
-﻿using Attendance_Manager.API.Controllers.Class.DTO;
+﻿using Attendance_Manager.API.Controllers.Attendance.DTO;
+using Attendance_Manager.API.Controllers.Class.DTO;
 using Attendance_Manager.API.Controllers.Enrollment.DTO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -154,5 +155,36 @@ namespace Attendance_Manager.API.Data
             return true;
         }
 
+
+        // Attendance Methods
+
+        public async Task<bool> SaveAttedanceBySessionID(int sessionId,List<AttendanceRecord> records)
+        {
+            await _appDBContext.AttendanceRecords.AddRangeAsync(records);
+            await _appDBContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<List<AttendanceRecord>> GetAttendanceBySessionId(int sessionId)
+        {
+            var result = await _appDBContext.AttendanceRecords.Where(e => e.SessionId == sessionId).ToListAsync();
+
+            return result;
+        }
+
+        public async Task<IEnumerable<Session>> FindSessionsByClassId(int classId)
+        {
+            var result = await _appDBContext.Sessions.Where(r => r.ClassId == classId).ToListAsync();
+            return result;
+        }
+
+        public async Task<IEnumerable<AttendanceRecord>?> GetAttendanceByStudentIdSessionID(int studentId, IEnumerable<int> sessionIds)
+        {
+            var result = await _appDBContext.AttendanceRecords.Where(r => r.StudentId==studentId && sessionIds.Contains( r.SessionId)).ToListAsync();
+            return result;
+        }
+
     }
 }
+    
