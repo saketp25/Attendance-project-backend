@@ -1,21 +1,3 @@
-# Ignore Visual Studio cache files
-.vs/
-
-# Build results
-bin/
-obj/
-
-# User-specific files
-*.user
-*.suo
-*.userosscache
-*.sln.docstates
-
-# VS Code settings
-.vscode/
-
-
-Froentend/.gitignore
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
 # Compiled output
