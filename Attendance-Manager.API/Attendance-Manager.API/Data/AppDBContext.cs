@@ -1,66 +1,52 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Attendance_Manager.API.JwtAuthentication;
 
 namespace Attendance_Manager.API.Data
 {
-    public class AppDBContext : DbContext
+    public class AppDBContext : IdentityDbContext<ApplicationUser>
     {
         public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
         { }
 
-
-        public DbSet<Teacher> teachers { get; set; }
-
-        public DbSet<Student> students { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Class> Classes { get; set; }
+        public DbSet<Enrollment> Enrollments { get; set; }
+        public DbSet<Session> Sessions { get; set; }
+        public DbSet<AttendanceRecord> AttendanceRecords { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            modelBuilder.Entity<Teacher>(entity =>
+            modelBuilder.Entity<User>(entity =>
             {
-                entity.ToTable("teachers", "dbo");
+                entity.ToTable("Users", "dbo");
 
-                entity.HasKey(e => e.TeacherId);
+                entity.HasKey(e => e.UserId);
 
-                entity.Property(e => e.TeacherId)
-                .HasColumnName("teacher_id");
+                entity.Property(e => e.UserId)
+                .HasColumnName("user_id");
 
-                entity.Property(e => e.TeacherName)
-                .HasColumnName("teacher_name")
+                entity.Property(e => e.UserName)
+                .HasColumnName("user_name")
                 .HasMaxLength(50);
 
-                entity.Property(e => e.TeacherEmail)
+                entity.Property(e => e.Email)
                 .HasColumnName("email")
                 .HasMaxLength(50);
 
-                entity.Property(e => e.TeacherPassword)
+                entity.Property(e => e.Password)
                 .HasColumnName("password")
+                .HasMaxLength(50); 
+
+                entity.Property(e => e.Role)
+                .HasColumnName("role")
                 .HasMaxLength(50);
 
-            });
-
-            modelBuilder.Entity<Student>(entity =>
-            {
-                entity.ToTable("Students", "dbo");
-
-                entity.HasKey(e => e.StudentId);
-
-                entity.Property(e => e.StudentId)
-                .HasColumnName("student_id");
-
-                entity.Property(e => e.StudentName)
-                .HasColumnName("student_name")
-                .HasMaxLength(50);
-
-                entity.Property(e => e.StudentEmail)
-                .HasColumnName("email")
-                .HasMaxLength(50);
-
-                entity.Property(e => e.StudentPassword)
-                .HasColumnName("password")
-                .HasMaxLength(50);
-
+                entity.Property(e => e.IdentityUserId)
+                .HasColumnName("identityuser_id")
+                .HasMaxLength(450);
             });
 
             modelBuilder.Entity<Class>(entity =>
@@ -81,9 +67,9 @@ namespace Attendance_Manager.API.Data
 
             });
 
-            modelBuilder.Entity<ClassStudent>(entity =>
+            modelBuilder.Entity<Enrollment>(entity =>
             {
-                entity.ToTable("ClassStudents", "dbo");
+                entity.ToTable("Enrollments", "dbo");
 
                 entity.HasKey(e => new {e.ClassId, e.StudentId});
 
@@ -101,7 +87,9 @@ namespace Attendance_Manager.API.Data
 
                 entity.HasKey(e => e.SessionId);
 
-                entity.Property(e => e.SessionId);
+                entity.Property(e => e.SessionId)
+                .HasColumnName("session_id");
+                
 
                 entity.Property(e => e.SessionName)
                 .HasColumnName("session_name")
@@ -118,16 +106,19 @@ namespace Attendance_Manager.API.Data
             modelBuilder.Entity<AttendanceRecord>(entity =>
             {
                 entity.ToTable("AttendanceRecords", "dbo");
-             
+
                 entity.HasKey(e => e.AttendanceId);
-                
+
+                entity.Property(e => e.AttendanceId)
+                 .HasColumnName("attendance_id");
+
                 entity.Property(e => e.SessionId)
                 .HasColumnName("session_id");
                 
                 entity.Property(e => e.StudentId)
                 .HasColumnName("student_id");
                 
-                entity.Property(e => e.status)
+                entity.Property(e => e.Status)
                 .HasColumnName("status");
 
             });
